@@ -203,9 +203,4 @@ public class Chizu extends ListenerAdapter {
         String[] choices = {"Hi!! ", "Moshi Moshi!! ", "Hey! "};
         ctx.send(funcs.random_choice(choices) + member.getAsMention());
     }
-
-    public void test(Context ctx) {
-        EmbedBuilder embed = new EmbedBuilder();
-        embed
-    }
 }
