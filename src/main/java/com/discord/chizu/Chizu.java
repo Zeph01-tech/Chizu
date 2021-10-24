@@ -29,8 +29,8 @@ class Context {
 		this.channel.sendMessage(message).queue();
 	}
 
-	public void send(MessageEmbed embed) {
-		this.channel.sendMessage(embed).queue();
+	public void send(EmbedBuilder embed) {
+		this.channel.sendMessage(embed.build()).queue();
 	}
 }
 
@@ -40,25 +40,21 @@ class IDs {
 
 class funcs {
 	public static boolean isValidPrefix(String str) {
-		boolean flag = false;
 		for (String prefix : Chizu.prefixes) {
 			if (prefix.equals(str)) {
-				flag = true;
-				break;
+				return true;
 			}
 		}
-		return flag;
+		return false;
 	}
 
 	public static boolean hasValue(String[] arr, String value) {
-		boolean flag = false;
 		for (String str : arr) {
 			if (str.equals(value)) {
-				flag = true;
-				break;
+				return true;
 			}
 		}
-		return flag;
+		return false;
 	}
 
 	public static String mergearr(String[] arr) {
@@ -144,7 +140,7 @@ public class Chizu extends ListenerAdapter {
 		embed.addField("`addprefix <new prefix>` **Possible aliase(s):** `addp`", "New prefix is added in the`prefix list`.", false);
 		embed.addField("`removeprefix <prefix>` **Possible aliase(s):** `removep`", "Mentioned prefix is removed from the `prefix list`.", false);
 		embed.addField("`greet <user>`", "Greets the `user`", false);
-		ctx.send(embed.build());
+		ctx.send(embed);
 	}
 
 	public void answer(Context ctx) {
@@ -196,7 +192,7 @@ public class Chizu extends ListenerAdapter {
 		embed.setTitle("All Prefixes");
 		embed.setDescription(dialouge);
 		embed.setColor(0x3d72b3);
-		ctx.send(embed.build());
+		ctx.send(embed);
 	}
 
 	public void greet(Context ctx, Member member) {
