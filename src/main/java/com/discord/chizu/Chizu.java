@@ -14,15 +14,15 @@ class Context {
 	Guild guild;
 	User author;
 	MessageChannel channel;
-	long guildid, authorid, channelid;
+	long guild_id, author_id, channel_id;
 
 	public Context(MessageReceivedEvent event) {
 		this.guild = event.getGuild();
-		this.guildid = this.guild.getIdLong();
+		this.guild_id = this.guild.getIdLong();
 		this.author = event.getAuthor();
-		this.authorid = this.author.getIdLong();
+		this.author_id = this.author.getIdLong();
 		this.channel = event.getChannel();
-		this.channelid = this.channel.getIdLong();
+		this.channel_id = this.channel.getIdLong();
 	}
 
 	public void send(String message) {
@@ -40,28 +40,26 @@ class IDs {
 
 class funcs {
 	public static boolean isValidPrefix(String str) {
-		for (String prefix : Chizu.prefixes) {
-			if (prefix.equals(str)) {
+		for (String prefix : Chizu.prefixes)
+			if (prefix.equals(str))
 				return true;
-			}
-		}
+
 		return false;
 	}
 
 	public static boolean hasValue(String[] arr, String value) {
-		for (String str : arr) {
-			if (str.equals(value)) {
+		for (String str : arr)
+			if (str.equals(value))
 				return true;
-			}
-		}
+
 		return false;
 	}
 
 	public static String mergearr(String[] arr) {
 		String out = "";
-		for (String str : arr) {
+		for (String str : arr)
 			out += str + " ";
-		}
+
 		return out;
 	}
 
@@ -101,28 +99,27 @@ public class Chizu extends ListenerAdapter {
 			else if (args[1].equals("?"))
 				answer(new Context(event));
 			else if (args[1].equals("addprefix") || args[1].equals("addp")) {
-				if (args.length == 2) {
+				if (args.length == 2)
 					if (event.getAuthor().getIdLong() == IDs.my_id)
 						event.getChannel().sendMessage("Specify a prefix to add").queue();
-				}
 				else
 					addprefix(new Context(event), args[2]);
-			} else if (args[1].equals("removeprefix") || args[1].equals("removep")) {
+			} else if (args[1].equals("removeprefix") || args[1].equals("removep"))
 				removeprefix(new Context(event), args[2]);
-			} else if (args[1].equals("prefixlist") || args[1].equals("pl")) {
+
+			  else if (args[1].equals("prefixlist") || args[1].equals("pl"))
 				prefix_list(new Context(event));
-			} else if (args[1].equals("greet")) {
-				System.out.println(funcs.mergearr(args));
-				if (args.length == 2) {
+
+			  else if (args[1].equals("greet")) {
+				if (args.length == 2)
 					event.getChannel().sendMessage("Mention a user to greet").queue();
-				} else {
+				else {
 					String id = args[2].replaceAll("<@", " ").replace('!', ' ').replace('>', ' ').strip();
-					if (id.equals(args[2])) {
-						event.getChannel().sendMessage("By all means, **I don't see any** `" + args[2] + "` **in our server** .-.").queue();
-					} else {
-						Member member = event.getGuild().getMemberById(id);
-						greet(new Context(event), member);
-					}
+					if (id.equals(args[2]))
+						event.getChannel().sendMessage("By all means, **I don't see any** `" + args[2] + "` **in our server** " + funcs.random_choice(new String[] {"._.", ".-.", "-_-"})).queue();
+					else
+						greet(new Context(event), event.getGuild().getMemberById(id));
+					
 				}
 			} else if (args[1].equals("test")) {
 					System.out.println(args[2]);
@@ -144,26 +141,24 @@ public class Chizu extends ListenerAdapter {
 	}
 
 	public void answer(Context ctx) {
-		String[] choices = {"Yes?", "haii!!", "I'm alive!", "Nan-desuka?"};
-		ctx.send(funcs.random_choice(choices));
+		ctx.send(funcs.random_choice(new String[] {"Yes?", "haii!!", "I'm alive!", "Nan-desuka?", "**wot**", "Yep"}));
 	}
 
 	public void addprefix(Context ctx, String prefix) {
-		if (ctx.authorid == IDs.my_id) {
+		if (ctx.author_id == IDs.my_id) {
 			String[] new_prefixes = new String[prefixes.length + 1];
 			new_prefixes[0] = prefix;
-			int ctr = 0;
-			for (int i = 1; i < new_prefixes.length; i++) {
-				new_prefixes[i] = prefixes[ctr];
-				ctr++;
-			}
+			int ctr = 1;
+			for (String each : prefixes)
+				new_prefixes[ctr++] = each;
+			
 			prefixes = new_prefixes;
 			ctx.send("Prefix `" + prefix + "` added successfully.");
 		}
 	}
 
 	public void removeprefix(Context ctx, String prefix) {
-		if (ctx.authorid == IDs.my_id) {
+		if (ctx.author_id == IDs.my_id) {
 			if (!funcs.hasValue(prefixes, prefix)) {
 				ctx.send("Prefix `" + prefix + "` not found.");
 			} else {
@@ -197,6 +192,6 @@ public class Chizu extends ListenerAdapter {
 
 	public void greet(Context ctx, Member member) {
 		String[] choices = {"Hi!! ", "Moshi Moshi!! ", "Hey! "};
-		ctx.send(funcs.random_choice(choices) + member.getAsMention());
+		ctx.send(funcs.random_choice(new String[] {"Hi!! ", "Moshi Moshi!! ", "Hey! "}) + member.getAsMention());
 	}
 }
