@@ -95,7 +95,7 @@ public class Chizu extends ListenerAdapter {
 		Scanner content = new Scanner(file);
 		String token = content.nextLine();
 		content.close();
-		
+
 		client = JDABuilder
 					.createDefault(token)
 					.setChunkingFilter(ChunkingFilter.ALL)
@@ -183,7 +183,7 @@ public class Chizu extends ListenerAdapter {
 	}
 
 	public void answer(Context ctx) {
-		ctx.send(funcs.random_choice(new String[] {"Yes?", "haii!!", "I'm alive!", "Nan-desuka?", "**wot**", "Yep"}));
+		ctx.send(funcs.random_choice(new String[] {"Yes?", "haii!!", "I'm alive!", "Nan-desuka?", "**wot**", "Yep", "Ur Dog"}));
 	}
 
 	public void addprefix(Context ctx, String prefix) {
