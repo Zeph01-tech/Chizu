@@ -7,12 +7,13 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.util.List;
 
 public class Context {
-	Guild guild;
-	User author;
-	List<Member> members;
-	Message message;
-	MessageChannel channel;
-	long guild_id, author_id, channel_id;
+	public Guild guild;
+	public User author;
+	public List<Member> members;
+	public Message message;
+	public MessageChannel channel;
+	public long guild_id, author_id, channel_id;
+  public String[] args;
 
 	public Context(MessageReceivedEvent event) {
 		this.guild = event.getGuild();
@@ -23,6 +24,7 @@ public class Context {
 		this.channel = event.getChannel();
 		this.channel_id = this.channel.getIdLong();
 		this.message = event.getMessage();
+    this.args = event.getMessage().getContentRaw().split(" ");
 	}
 
 	public Member getMemberById(String id) {
@@ -34,7 +36,7 @@ public class Context {
 	}
 
 	public void send(EmbedBuilder embed) {
-		this.channel.sendMessage(embed.build()).queue();
+		this.channel.sendMessageEmbeds(embed.build()).queue();
 	}
 
 	public void reply(String message) {
