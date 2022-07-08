@@ -32,6 +32,6 @@ public class Utils {
 		for (String str : arr)
 			out += str + " ";
 
-		return out;
+		return out; 
 	}
 }

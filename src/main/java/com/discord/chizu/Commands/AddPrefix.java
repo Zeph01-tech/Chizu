@@ -12,7 +12,7 @@ public class AddPrefix extends Command {
     System.out.println("AddPrefix Registered");
   }
 
-  @Override
+  @Override 
   public void execute(Context ctx) {
     if (ctx.args.length != 3) return;
 

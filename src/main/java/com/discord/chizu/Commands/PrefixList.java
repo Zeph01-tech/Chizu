@@ -13,7 +13,7 @@ public class PrefixList extends Command {
     this.register();
     System.out.println("PrefixList Registered");
   }
-
+ 
   @Override
   public void execute(Context ctx) {
     if (ctx.args.length != 2) return;

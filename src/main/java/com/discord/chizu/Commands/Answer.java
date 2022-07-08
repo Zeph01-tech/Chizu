@@ -11,7 +11,7 @@ public class Answer extends Command {
     this.register();
     System.out.println("Answer Registered");
   }
-
+ 
   @Override
   public void execute(Context ctx) {
     if (ctx.args.length != 2) return;

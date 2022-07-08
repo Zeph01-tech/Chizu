@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import java.util.List;
+import java.util.List; 
 
 public class Context {
 	public Guild guild;

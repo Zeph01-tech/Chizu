@@ -16,7 +16,7 @@ public class Help extends Command {
   @Override
   public void execute(Context ctx) {
     if (ctx.args.length != 2) return;
-
+ 
     EmbedBuilder embed = new EmbedBuilder();
 		embed.setTitle("**Help Panel**");
 		embed.setDescription("*List of all commands and their uses.*");

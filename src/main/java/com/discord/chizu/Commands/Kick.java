@@ -16,7 +16,7 @@ public class Kick extends Command {
     this.register();
     System.out.println("Kick Registered");
   }
-
+ 
   @Override
   public void execute(Context ctx) {
     if (ctx.args.length != 3) return;

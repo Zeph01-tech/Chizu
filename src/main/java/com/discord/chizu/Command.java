@@ -15,7 +15,7 @@ public class Command {
     CommandHandler.register(this);
   }
 
-  public boolean isAlias(String name) {
+  public boolean isAlias(String name) { 
     for (String alias : this.aliases)
       if (name.equals(alias))
         return true;

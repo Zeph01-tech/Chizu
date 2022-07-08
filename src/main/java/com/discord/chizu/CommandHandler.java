@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class CommandHandler {
   static List<Command> commands = new ArrayList<>();
   public String[] prefixes;
-  static long adminId = 762372102204030986L;
+  static long adminId = 762372102204030986L; 
 
   public CommandHandler(String[] prefixes) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
     this.prefixes = prefixes;

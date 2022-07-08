@@ -13,7 +13,7 @@ public class RemovePrefix extends Command {
     System.out.println("RemovePrefix Registered");
   }
 
-  @Override
+  @Override 
   public void execute(Context ctx) {
     if (ctx.args.length != 3) return;
 

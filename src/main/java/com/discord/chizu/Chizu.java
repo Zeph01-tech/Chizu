@@ -46,7 +46,7 @@ public class Chizu extends ListenerAdapter {
       System.out.println(e.getMessage());
     }
 	}
-
+ 
 	@Override
 	public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 		if (event.getJDA().equals(client)) return;
