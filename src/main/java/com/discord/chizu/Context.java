@@ -15,7 +15,7 @@ public class Context {
 	public long guild_id, author_id, channel_id;
   public String[] args;
 
-	public Context(MessageReceivedEvent event) {
+	public Context(MessageReceivedEvent event, String[] args) {
 		this.guild = event.getGuild();
 		this.guild_id = this.guild.getIdLong();
 		this.author = event.getAuthor();
@@ -24,7 +24,7 @@ public class Context {
 		this.channel = event.getChannel();
 		this.channel_id = this.channel.getIdLong();
 		this.message = event.getMessage();
-    this.args = event.getMessage().getContentRaw().split(" ");
+    this.args = args;
 	}
 
 	public Member getMemberById(String id) {

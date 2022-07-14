@@ -49,7 +49,7 @@ public class Chizu extends ListenerAdapter {
  
 	@Override
 	public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-		if (event.getJDA().equals(client)) return;
+		if (event.getAuthor().isBot()) return;
 
     handler.execute(event);
 	}

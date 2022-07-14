@@ -50,7 +50,7 @@ public class CommandHandler {
 
     for (Command command : commands) {
       if (command.name.equals(args[1]) || command.isAlias(args[1])) {
-        Context ctx = new Context(event);
+        Context ctx = new Context(event, args);
 
         if (!command.adminOnly) {
           command.execute(ctx);
