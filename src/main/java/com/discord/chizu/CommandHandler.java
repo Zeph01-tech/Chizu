@@ -5,8 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class CommandHandler {
@@ -14,7 +12,7 @@ public class CommandHandler {
   public String[] prefixes;
   static long adminId = 762372102204030986L; 
 
-  private CommandHandler(@Nullable String _null) throws 
+  public CommandHandler build() throws 
   InstantiationException, 
   IllegalAccessException, 
   IllegalArgumentException, 
@@ -30,16 +28,7 @@ public class CommandHandler {
       Class<?> command = getClass(className, "com.discord.chizu.Commands");
       command.getConstructor().newInstance();
     }
-  }
 
-  private CommandHandler() {}
-
-  public static CommandHandler construct() {
-    return new CommandHandler();
-  }
-
-  public CommandHandler build() throws Exception {
-    new CommandHandler(null);
     return this;
   }
 

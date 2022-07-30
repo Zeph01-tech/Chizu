@@ -39,7 +39,7 @@ public class Chizu extends ListenerAdapter {
                   .build();
 
      try {
-      handler = CommandHandler.construct();
+      handler = new CommandHandler();
       handler.setPrefixes(new String[] {"Chizu", "chizu"}).build();
 
      } catch (Exception e) {
