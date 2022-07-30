@@ -4,21 +4,23 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class CommandHandler {
-  static List<Command> commands = new ArrayList<>();
+  public List<Command> commands = new ArrayList<>();
   public String[] prefixes;
   static long adminId = 762372102204030986L; 
 
-  public CommandHandler(String[] prefixes) throws 
+  private CommandHandler(@Nullable String _null) throws 
   InstantiationException, 
   IllegalAccessException, 
   IllegalArgumentException, 
   InvocationTargetException, 
   NoSuchMethodException, 
   SecurityException {
-    this.prefixes = prefixes;
 
     File[] files = new File("./src/main/java/com/discord/chizu/Commands").listFiles();
 
@@ -30,8 +32,24 @@ public class CommandHandler {
     }
   }
 
-  public static void register(Command cmd) {
-    commands.add(cmd);
+  private CommandHandler() {}
+
+  public static CommandHandler construct() {
+    return new CommandHandler();
+  }
+
+  public CommandHandler build() throws Exception {
+    new CommandHandler(null);
+    return this;
+  }
+
+  public void register(Command cmd) {
+    this.commands.add(cmd);
+  }
+
+  public CommandHandler setPrefixes(String[] prefixes) {
+    this.prefixes = prefixes;
+    return this;
   }
 
   private static Class<?> getClass(String className, String packageName) {

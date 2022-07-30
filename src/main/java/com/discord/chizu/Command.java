@@ -1,8 +1,8 @@
 package com.discord.chizu;
 
 public abstract class Command {
-  String name, description, aliases[];
-  boolean adminOnly;
+  public String name, description, aliases[];
+  public boolean adminOnly;
 
   public Command(String name, String description, String[] aliases, boolean adminOnly) {
     this.name = name;
@@ -12,7 +12,7 @@ public abstract class Command {
   }
 
   public void register() {
-    CommandHandler.register(this);
+    Chizu.handler.register(this);
   }
 
   public boolean isAlias(String name) { 

@@ -10,9 +10,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
-import javax.security.auth.login.LoginException;
 
 public class Chizu extends ListenerAdapter {
 
@@ -20,7 +18,7 @@ public class Chizu extends ListenerAdapter {
   public static CommandHandler handler;
   public static EventWaiter waiter = new EventWaiter();
 	
-	public static void main(String[] args) throws LoginException, FileNotFoundException {
+	public static void main(String[] args) throws Exception {
 		File file = new File("./TOKENS/token.txt");
 		Scanner content = new Scanner(file);
 		String token = content.nextLine();
@@ -41,7 +39,9 @@ public class Chizu extends ListenerAdapter {
                   .build();
 
      try {
-       handler = new CommandHandler(new String[] {"Chizu", "chizu"});
+      handler = CommandHandler.construct();
+      handler.setPrefixes(new String[] {"Chizu", "chizu"}).build();
+
      } catch (Exception e) {
        System.out.println("Error occured");
        System.out.println(e.getMessage());
