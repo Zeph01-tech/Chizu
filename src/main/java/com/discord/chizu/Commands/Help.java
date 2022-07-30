@@ -27,6 +27,6 @@ public class Help extends Command {
 		embed.addField("`removeprefix <prefix>` **Possible aliase(s):** `removep`", "Mentioned prefix is removed from the `prefix list`.", false);
 		embed.addField("`greet <user>`", "Greets the `user`", false);
 		embed.addField("`kick <user>`", "Kicks the mentioned `user` if the member who used the command has the kick perms", false);
-		ctx.send(embed);
+		ctx.channel.sendMessageEmbeds(embed.build()).queue();
   }
 }

@@ -1,6 +1,6 @@
 package com.discord.chizu;
 
-public class Command {
+public abstract class Command {
   String name, description, aliases[];
   boolean adminOnly;
 
@@ -23,6 +23,5 @@ public class Command {
     return false;
   }
 
-  public void execute(Context ctx) {
-  }
+  public abstract void execute(Context ctx);
 }

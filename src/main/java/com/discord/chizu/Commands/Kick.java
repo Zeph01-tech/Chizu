@@ -26,20 +26,20 @@ public class Kick extends Command {
     );
 
     if (target == null) {
-      ctx.send("Could not find the provided member.");
+      ctx.channel.sendMessage("Could not find the provided member.");
       return;
     }
 
-    ctx.send("Are you sure you want to kick " + target.getAsMention() + " from the server?\nReply with either yes/y or no/n.");
+    ctx.channel.sendMessage("Are you sure you want to kick " + target.getAsMention() + " from the server?\nReply with either yes/y or no/n.");
 			Chizu.waiter.waitForEvent(GuildMessageReceivedEvent.class, 
-			e -> e.getChannel().getIdLong() == ctx.channel_id && e.getAuthor().getIdLong() == ctx.author_id && Utils.hasValueIgnoreCase(new String[] {"Yes", "Y", "No", "N"}, e.getMessage().getContentRaw()), 
+			e -> e.getChannel().getIdLong() == ctx.channelId && e.getAuthor().getIdLong() == ctx.authorId && Utils.hasValueIgnoreCase(new String[] {"Yes", "Y", "No", "N"}, e.getMessage().getContentRaw()), 
 			e -> {
 				String msg = e.getMessage().getContentRaw();
 				if (msg.equalsIgnoreCase("No") || msg.equalsIgnoreCase("N")) {
 					EmbedBuilder embed = new EmbedBuilder()
                                     .setDescription("Command Cancelled.")
                                     .setColor(0xcf0418);
-					ctx.send(embed);
+					ctx.channel.sendMessageEmbeds(embed.build());
 				} else {
 					String tag = target.getUser().getAsTag();
 					EmbedBuilder embed = new EmbedBuilder()
@@ -47,7 +47,7 @@ public class Kick extends Command {
                                     .setDescription(tag + " has been kicked from the server.");
                                     
           target.kick().queue();
-          ctx.send(embed);
+          ctx.channel.sendMessageEmbeds(embed.build()).queue();
 					// if (reason.equals("0"))
 					// 	target.kick().queue();
 					// else

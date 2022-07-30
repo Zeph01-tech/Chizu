@@ -19,7 +19,7 @@ public class RemovePrefix extends Command {
 
     String arguedPrefix = ctx.args[2];
     if (!Utils.hasValue(Chizu.handler.prefixes, arguedPrefix)) {
-      ctx.send("Prefix `" + arguedPrefix + "` not found.");
+      ctx.channel.sendMessage("Prefix `" + arguedPrefix + "` not found.");
       return;
     }
 
@@ -31,6 +31,6 @@ public class RemovePrefix extends Command {
         newPrefixList[ctr++] = prefix;
 
     Chizu.handler.prefixes = newPrefixList;
-    ctx.send("Prefix `" + arguedPrefix + "` removed successfully.");
+    ctx.channel.sendMessage("Prefix `" + arguedPrefix + "` removed successfully.").queue();
   }
 }

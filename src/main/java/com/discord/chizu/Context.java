@@ -1,10 +1,9 @@
 package com.discord.chizu;
 
-import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import java.util.List; 
+import java.util.List;
 
 public class Context {
 	public Guild guild;
@@ -12,17 +11,17 @@ public class Context {
 	public List<Member> members;
 	public Message message;
 	public MessageChannel channel;
-	public long guild_id, author_id, channel_id;
+	public long guildId, authorId, channelId;
   public String[] args;
 
 	public Context(MessageReceivedEvent event, String[] args) {
 		this.guild = event.getGuild();
-		this.guild_id = this.guild.getIdLong();
+		this.guildId = this.guild.getIdLong();
 		this.author = event.getAuthor();
 		this.members = this.guild.getMembers();
-		this.author_id = this.author.getIdLong();
+		this.authorId = this.author.getIdLong();
 		this.channel = event.getChannel();
-		this.channel_id = this.channel.getIdLong();
+		this.channelId = this.channel.getIdLong();
 		this.message = event.getMessage();
     this.args = args;
 	}
@@ -31,15 +30,28 @@ public class Context {
 		return this.guild.getMemberById(id);
 	}
 
-	public void send(String message) {
-		this.channel.sendMessage(message).queue();
-	}
+	// public void send(String message) {
+	// 	this.channel.sendMessage(message).queue();
+	// }
 
-	public void send(EmbedBuilder embed) {
-		this.channel.sendMessageEmbeds(embed.build()).queue();
-	}
+  // public void send(String message, Consumer<Message> callback) {
+  //   this.channel.sendMessage(message).submit().thenAccept(callback);
+  // }
 
-	public void reply(String message) {
-		this.message.reply(message).queue();
-	}
+
+  // public Message send(String message, String _null) {     // fake param {_null} to overload returnable function successfully
+  //   return this.channel.sendMessage(message).complete();
+  // }
+
+	// public void send(EmbedBuilder embed) {
+	// 	this.channel.sendMessageEmbeds(embed.build()).queue();
+	// }
+
+  // public Message send(EmbedBuilder embed, String _null) { // fake param {_null} to overload returnable function successfully
+  //   return this.channel.sendMessageEmbeds(embed.build()).complete();
+  // }
+
+	// public void reply(String message) {
+	// 	this.message.reply(message).queue();
+	// }
 }

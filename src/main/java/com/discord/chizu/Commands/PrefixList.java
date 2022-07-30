@@ -28,6 +28,6 @@ public class PrefixList extends Command {
                               .setDescription(dialouge)
                               .setColor(0x3d72b3);
 
-		ctx.send(embed);
+		ctx.channel.sendMessageEmbeds(embed.build()).queue();
   }
 }

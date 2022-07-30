@@ -2,6 +2,9 @@ package com.discord.chizu.Commands;
 
 import com.discord.chizu.Command;
 import com.discord.chizu.Context;
+
+import net.dv8tion.jda.api.entities.Emote;
+
 import com.discord.chizu.Chizu;
 
 public class AddPrefix extends Command {
@@ -24,6 +27,7 @@ public class AddPrefix extends Command {
 
     Chizu.handler.prefixes = newPrefixList;
 
-    ctx.reply("Prefixes updated ✅");
+
+    ctx.message.reply("Prefixes updated ✅").queue();
   }
 }

@@ -11,15 +11,21 @@ public class CommandHandler {
   public String[] prefixes;
   static long adminId = 762372102204030986L; 
 
-  public CommandHandler(String[] prefixes) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+  public CommandHandler(String[] prefixes) throws 
+  InstantiationException, 
+  IllegalAccessException, 
+  IllegalArgumentException, 
+  InvocationTargetException, 
+  NoSuchMethodException, 
+  SecurityException {
     this.prefixes = prefixes;
 
-    File[] files = new File("./src/main/java/com/discord/chizu").listFiles();
+    File[] files = new File("./src/main/java/com/discord/chizu/Commands").listFiles();
 
     for (File file : files) {
       String className = file.getName();
       className = className.substring(0, className.lastIndexOf("."));
-      Class<?> command = getClass(className, "com.discord.chizu");
+      Class<?> command = getClass(className, "com.discord.chizu.Commands");
       command.getConstructor().newInstance();
     }
   }
@@ -43,7 +49,7 @@ public class CommandHandler {
     boolean valid = false;
 
     for (String prefix : prefixes)
-      if (prefix == args[0])
+      if (prefix.equals(args[0]))
         valid = true;
 
     if (!valid) return;
@@ -57,10 +63,10 @@ public class CommandHandler {
           return;
         }
 
-        if (ctx.author_id == adminId)
+        if (ctx.authorId == adminId)
           command.execute(ctx);
         else
-          ctx.send("Command can only be invoked by botOwner.");
+          ctx.channel.sendMessage("Command can only be invoked by botOwner.");
 
         return;
       }

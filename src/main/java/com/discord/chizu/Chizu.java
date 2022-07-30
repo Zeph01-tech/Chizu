@@ -16,7 +16,7 @@ import javax.security.auth.login.LoginException;
 
 public class Chizu extends ListenerAdapter {
 
-  private static JDA client;
+  // private static JDA client;
   public static CommandHandler handler;
   public static EventWaiter waiter = new EventWaiter();
 	
@@ -26,7 +26,7 @@ public class Chizu extends ListenerAdapter {
 		String token = content.nextLine();
 		content.close();
 
-		client = JDABuilder
+		JDABuilder
                   .createDefault(token)
                   .setChunkingFilter(ChunkingFilter.ALL)
                   .enableIntents(
@@ -40,16 +40,19 @@ public class Chizu extends ListenerAdapter {
                   .setActivity(Activity.watching("L∅Ìf Ìj Ph∅N"))
                   .build();
 
-    try {
-      handler = new CommandHandler(new String[] {"Chizu", "chizu"});
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-    }
+     try {
+       handler = new CommandHandler(new String[] {"Chizu", "chizu"});
+     } catch (Exception e) {
+       System.out.println("Error occured");
+       System.out.println(e.getMessage());
+     }
 	}
  
 	@Override
 	public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 		if (event.getAuthor().isBot()) return;
+
+    System.out.println(event.getMessage().getContentRaw());
 
     handler.execute(event);
 	}
