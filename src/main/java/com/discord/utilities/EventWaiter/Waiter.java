@@ -12,12 +12,12 @@ import net.dv8tion.jda.api.events.Event;
 
 class Waiting_Event<T extends Event> {
   Class<T> type;
-  CheckCallback check;
+  CheckCallback<T> check;
   Consumer<T> callback;
   int timeout;
   Runnable timeoutCb;
 
-  public Waiting_Event(Class<T> type, CheckCallback check, Consumer<T> callback, int timeout, Runnable timeoutCb) {
+  public Waiting_Event(Class<T> type, CheckCallback<T> check, Consumer<T> callback, int timeout, Runnable timeoutCb) {
     this.type = type;
     this.check = check;
     this.callback = callback;
@@ -30,7 +30,7 @@ public class Waiter extends ListenerAdapter {
   private List<Waiting_Event<? extends Event>> queue = new ArrayList<>();
   ScheduledExecutorService threadpool = Executors.newScheduledThreadPool(1);
 
-  public <T extends Event> void waitFor(Class<T> _cls, CheckCallback check, Consumer<T> callback, Runnable timeoutCallback, int timeout) {
+  public <T extends Event> void waitFor(Class<T> _cls, CheckCallback<T> check, Consumer<T> callback, Runnable timeoutCallback, int timeout) {
     Waiting_Event<T> newEvent = new Waiting_Event<>(_cls, check, callback, timeout, timeoutCallback);
     this.queue.add(newEvent);
 
