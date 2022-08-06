@@ -2,7 +2,7 @@ package com.discord.utilities;
 
 import java.util.Random;
 
-public class Utils {
+public class HelperFuncs {
   public static String random_choice(String[] arr) {
 		return arr[new Random().nextInt(arr.length-1)];
 	}

@@ -3,7 +3,7 @@ package com.discord.chizu.Commands;
 import com.discord.chizu.Chizu;
 import com.discord.chizu.Command;
 import com.discord.chizu.Context;
-import com.discord.utilities.Utils;
+import com.discord.utilities.HelperFuncs;
 
 public class RemovePrefix extends Command {
   public RemovePrefix() {
@@ -18,7 +18,7 @@ public class RemovePrefix extends Command {
     if (ctx.args.length != 3) return;
 
     String arguedPrefix = ctx.args[2];
-    if (!Utils.hasValue(Chizu.handler.prefixes, arguedPrefix)) {
+    if (!HelperFuncs.hasValue(Chizu.handler.prefixes, arguedPrefix)) {
       ctx.channel.sendMessage("Prefix `" + arguedPrefix + "` not found.");
       return;
     }

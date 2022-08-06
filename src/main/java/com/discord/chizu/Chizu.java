@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import com.discord.utilities.EventWaiter.Waiter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -16,7 +16,12 @@ public class Chizu extends ListenerAdapter {
 
   // private static JDA client;
   public static CommandHandler handler;
-  public static EventWaiter waiter = new EventWaiter();
+
+  // JDA utilities EventWaiter
+  // public static EventWaiter waiter = new EventWaiter();
+
+  // My EventWaiter
+  public static Waiter waiter = new Waiter();
 	
 	public static void main(String[] args) throws Exception {
 		File file = new File("./TOKENS/token.txt");
@@ -25,18 +30,20 @@ public class Chizu extends ListenerAdapter {
 		content.close();
 
 		JDABuilder
-                  .createDefault(token)
-                  .setChunkingFilter(ChunkingFilter.ALL)
-                  .enableIntents(
-                    GatewayIntent.GUILD_MESSAGES,
-                    GatewayIntent.GUILD_MEMBERS,
-                    GatewayIntent.GUILD_MESSAGE_REACTIONS,
-                    GatewayIntent.GUILD_EMOJIS
-                  )
-                  .addEventListeners(new Chizu())
-                  .addEventListeners(waiter)
-                  .setActivity(Activity.watching("L∅Ìf Ìj Ph∅N"))
-                  .build();
+            .createDefault(token)
+            .setChunkingFilter(ChunkingFilter.ALL)
+            .enableIntents(
+              GatewayIntent.GUILD_MESSAGES,
+              GatewayIntent.DIRECT_MESSAGES,
+              GatewayIntent.GUILD_MEMBERS,
+              GatewayIntent.GUILD_MESSAGE_REACTIONS,
+              GatewayIntent.GUILD_EMOJIS_AND_STICKERS,
+              GatewayIntent.MESSAGE_CONTENT
+            )
+            .addEventListeners(new Chizu())
+            .addEventListeners(waiter)
+            .setActivity(Activity.watching("L∅Ìf Ìj Ph∅N"))
+            .build();
 
      try {
       handler = new CommandHandler();
@@ -51,8 +58,6 @@ public class Chizu extends ListenerAdapter {
 	@Override
 	public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 		if (event.getAuthor().isBot()) return;
-
-    System.out.println(event.getMessage().getContentRaw());
 
     handler.execute(event);
 	}
