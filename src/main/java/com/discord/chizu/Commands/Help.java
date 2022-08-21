@@ -1,6 +1,7 @@
 package com.discord.chizu.Commands;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 import com.discord.chizu.*;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -22,10 +23,22 @@ public class Help extends Command {
     .setDescription("*List of all commands and their uses.*")
     .setColor(0xe06636);
 
-    for (Command cmd : Chizu.handler.commands)
+    Chizu.handler.commandsThroughNames.values().forEach(cmd -> {
       if (!cmd.name.equalsIgnoreCase("help"))
-        embed.addField(MessageFormat.format("`{0}`", cmd.name), cmd.description, false);
+        embed.addField(MessageFormat.format("`{0}`{1}", cmd.name, sortAliases(cmd.aliases)), cmd.description, false);
+    });
 
 		ctx.channel.sendMessageEmbeds(embed.build()).queue();
+  }
+
+  private String sortAliases(List<String> aliases) {
+    if (aliases.size() == 0) return "";
+
+    StringBuffer query = new StringBuffer(" - aka *`");
+    aliases.forEach(alias -> {
+      query.append(alias + "/");
+    });
+    
+    return query.deleteCharAt(query.length() - 1).append("`*").toString();
   }
 }

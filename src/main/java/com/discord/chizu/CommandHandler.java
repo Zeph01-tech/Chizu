@@ -2,13 +2,13 @@ package com.discord.chizu;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class CommandHandler {
-  public List<Command> commands = new ArrayList<>();
+  public Map<String, Command> commandsThroughNames = new HashMap<>();
+  public Map<String, Command> commandsThroughAliases = new HashMap<>();
   public String[] prefixes;
   static long adminId = 762372102204030986L; 
 
@@ -33,7 +33,9 @@ public class CommandHandler {
   }
 
   public void register(Command cmd) {
-    this.commands.add(cmd);
+    this.commandsThroughNames.put(cmd.name, cmd);
+    
+    cmd.aliases.forEach(alias -> this.commandsThroughAliases.put(alias, cmd));
   }
 
   public CommandHandler setPrefixes(String[] prefixes) {
@@ -61,22 +63,23 @@ public class CommandHandler {
 
     if (!valid) return;
 
-    for (Command command : commands) {
-      if (command.name.equals(args[1]) || command.isAlias(args[1])) {
-        Context ctx = new Context(event, args);
+    if (this.commandsThroughNames.containsKey(args[1]))
+      executeCommand(this.commandsThroughNames.get(args[1]), new Context(event, args));
 
-        if (!command.adminOnly) {
-          command.execute(ctx);
-          return;
-        }
+    else if (this.commandsThroughAliases.containsKey(args[1]))
+      executeCommand(this.commandsThroughAliases.get(args[1]), new Context(event, args));
 
-        if (ctx.authorId == adminId)
-          command.execute(ctx);
-        else
-          ctx.channel.sendMessage("Command can only be invoked by botOwner.");
+  }
 
-        return;
-      }
-    }
+  private static void executeCommand(Command cmd, Context ctx) {
+    if (!cmd.adminOnly)
+      cmd.execute(ctx);
+
+    else if (ctx.authorId == adminId)
+      cmd.execute(ctx);
+    
+    else
+      ctx.channel.sendMessage("Command can only be invoked by bot Owner");
+
   }
 }

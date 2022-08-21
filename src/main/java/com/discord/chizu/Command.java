@@ -1,13 +1,17 @@
 package com.discord.chizu;
 
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class Command {
-  public String name, description, aliases[];
+  public String name, description;
+  public List<String> aliases;
   public boolean adminOnly;
 
   public Command(String name, String description, String[] aliases, boolean adminOnly) {
     this.name = name;
     this.description = description;
-    this.aliases = aliases;
+    this.aliases = Arrays.asList(aliases);
     this.adminOnly = adminOnly;
   }
 

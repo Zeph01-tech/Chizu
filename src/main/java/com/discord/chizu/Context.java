@@ -25,33 +25,4 @@ public class Context {
 		this.message = event.getMessage();
     this.args = args;
 	}
-
-	public Member getMemberById(String id) {
-		return this.guild.getMemberById(id);
-	}
-
-	// public void send(String message) {
-	// 	this.channel.sendMessage(message).queue();
-	// }
-
-  // public void send(String message, Consumer<Message> callback) {
-  //   this.channel.sendMessage(message).submit().thenAccept(callback);
-  // }
-
-
-  // public Message send(String message, String _null) {     // fake param {_null} to overload returnable function successfully
-  //   return this.channel.sendMessage(message).complete();
-  // }
-
-	// public void send(EmbedBuilder embed) {
-	// 	this.channel.sendMessageEmbeds(embed.build()).queue();
-	// }
-
-  // public Message send(EmbedBuilder embed, String _null) { // fake param {_null} to overload returnable function successfully
-  //   return this.channel.sendMessageEmbeds(embed.build()).complete();
-  // }
-
-	// public void reply(String message) {
-	// 	this.message.reply(message).queue();
-	// }
 }

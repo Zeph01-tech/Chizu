@@ -35,6 +35,7 @@ public class Chizu extends ListenerAdapter {
             .enableIntents(
               GatewayIntent.GUILD_MESSAGES,
               GatewayIntent.DIRECT_MESSAGES,
+              GatewayIntent.DIRECT_MESSAGE_REACTIONS,
               GatewayIntent.GUILD_MEMBERS,
               GatewayIntent.GUILD_MESSAGE_REACTIONS,
               GatewayIntent.GUILD_EMOJIS_AND_STICKERS,

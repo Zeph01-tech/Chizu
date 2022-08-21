@@ -20,7 +20,7 @@ public class Kick extends Command {
   public void execute(Context ctx) {
     if (ctx.args.length != 3) return;
 
-    Member target = ctx.getMemberById (
+    Member target = ctx.guild.getMemberById (
       ctx.args[2].replaceAll("<@", " ").replace("!", " ").replace(">", " ").strip()
     );
 
@@ -30,9 +30,9 @@ public class Kick extends Command {
     }
 
     ctx.channel.sendMessage("Are you sure you want to kick " + target.getAsMention() + " from the server?\nReply with either yes/y or no/n.").queue();
-    Chizu.waiter.waitFor(MessageReceivedEvent.class, e -> {
-      return e.getAuthor().equals(ctx.author) && e.getChannel().equals(ctx.channel);
-    }, e -> {
+    Chizu.waiter.waitFor(MessageReceivedEvent.class, 
+    e -> e.getAuthor().equals(ctx.author) && e.getChannel().equals(ctx.channel), 
+    e -> {
       String response = e.getMessage().getContentRaw();
       if (response.equalsIgnoreCase("no") || response.equalsIgnoreCase("n")) {
         EmbedBuilder embed = new EmbedBuilder()
@@ -49,7 +49,8 @@ public class Kick extends Command {
           target.kick().queue();
           ctx.channel.sendMessageEmbeds(embed.build()).queue();
       }
-    }, () -> {
+    }, 
+    () -> {
       EmbedBuilder embed = new EmbedBuilder()
                                 .setDescription("You did not respond in time.\nCommand Cancelled.")
                                 .setColor(0xcf0418);
