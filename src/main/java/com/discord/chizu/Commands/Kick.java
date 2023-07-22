@@ -43,8 +43,8 @@ public class Kick extends Command {
       } else if (response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("y")) {
           String tag = target.getUser().getAsTag();
 					EmbedBuilder embed = new EmbedBuilder()
-                                    .setTitle("Successfully kicked.")
-                                    .setDescription(tag + " has been kicked from the server.");
+                                  .setTitle("Successfully kicked.")
+                                  .setDescription(tag + " has been kicked from the server.");
                                     
           target.kick().queue();
           ctx.channel.sendMessageEmbeds(embed.build()).queue();
@@ -52,8 +52,8 @@ public class Kick extends Command {
     }, 
     () -> {
       EmbedBuilder embed = new EmbedBuilder()
-                                .setDescription("You did not respond in time.\nCommand Cancelled.")
-                                .setColor(0xcf0418);
+                              .setDescription("You did not respond in time.\nCommand Cancelled.")
+                              .setColor(0xcf0418);
 
       ctx.channel.sendMessageEmbeds(embed.build()).queue();
     }, 10);

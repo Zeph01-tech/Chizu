@@ -2,6 +2,12 @@ package com.discord.utilities.EventWaiter;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import javax.annotation.Nonnull;
+
+import com.discord.chizu.Chizu;
+import com.discord.utilities.HelperFuncs;
+
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -68,39 +74,31 @@ public class Waiter extends ListenerAdapter {
     return null;
   }
 
-  @Override
-  public void onMessageReceived(MessageReceivedEvent event) {
-    String msg = event.getMessage().getContentRaw();
-    if (msg.startsWith("chizu") || msg.startsWith("Chizu")) return;
-
-    List<Waiting_Event<MessageReceivedEvent>> correspondingAvailableEvents = search(MessageReceivedEvent.class);
-
+  private <T extends Event> void handleEvent(List<Waiting_Event<T>> correspondingAvailableEvents, T firedEvent) {
     if (correspondingAvailableEvents.size() > 0) {
-      Waiting_Event<MessageReceivedEvent> toRun = checkForEach(correspondingAvailableEvents, event);
+      Waiting_Event<T> toRun = checkForEach(correspondingAvailableEvents, firedEvent);
       if (toRun != null)
-        toRun.callback.accept(event);
+        toRun.callback.accept(firedEvent); 
     }
   }
 
   @Override
-  public void onMessageReactionAdd(MessageReactionAddEvent event) {
-    List<Waiting_Event<MessageReactionAddEvent>> correspondingAvailableEvents = search(MessageReactionAddEvent.class);
+  public void onMessageReceived(@Nonnull MessageReceivedEvent firedEvent) {
+    String msg = firedEvent.getMessage().getContentRaw();
+    if (HelperFuncs.hasValue(Chizu.handler.prefixes, msg.split(" ")[0])) return;
 
-    if (correspondingAvailableEvents.size() > 0) {
-      Waiting_Event<MessageReactionAddEvent> toRun = checkForEach(correspondingAvailableEvents, event);
-      if (toRun != null)
-        toRun.callback.accept(event);
-    }
+    handleEvent(search(MessageReceivedEvent.class), firedEvent);
   }
 
   @Override
-  public void onMessageReactionRemove(MessageReactionRemoveEvent event) {
-    List<Waiting_Event<MessageReactionRemoveEvent>> correspondingAvailableEvents = search(MessageReactionRemoveEvent.class);
+  public void onMessageReactionAdd(@Nonnull MessageReactionAddEvent firedEvent) {
 
-    if (correspondingAvailableEvents.size() > 0) {
-      Waiting_Event<MessageReactionRemoveEvent> toRun = checkForEach(correspondingAvailableEvents, event);
-      if (toRun != null)
-        toRun.callback.accept(event);
-    }
+    handleEvent(search(MessageReactionAddEvent.class), firedEvent);
+  }
+
+  @Override
+  public void onMessageReactionRemove(@Nonnull MessageReactionRemoveEvent firedEvent) {
+    
+    handleEvent(search(MessageReactionRemoveEvent.class), firedEvent);
   }
 }

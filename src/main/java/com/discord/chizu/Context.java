@@ -15,10 +15,12 @@ public class Context {
   public String[] args;
 
 	public Context(MessageReceivedEvent event, String[] args) {
-		this.guild = event.getGuild();
-		this.guildId = this.guild.getIdLong();
+		if (event.isFromGuild()) {
+      this.guild = event.getGuild();
+  		this.guildId = this.guild.getIdLong();
+      this.members = this.guild.getMembers();
+    }
 		this.author = event.getAuthor();
-		this.members = this.guild.getMembers();
 		this.authorId = this.author.getIdLong();
 		this.channel = event.getChannel();
 		this.channelId = this.channel.getIdLong();

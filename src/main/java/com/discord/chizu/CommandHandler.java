@@ -4,6 +4,9 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import com.discord.utilities.HelperFuncs;
+
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class CommandHandler {
@@ -11,6 +14,8 @@ public class CommandHandler {
   public Map<String, Command> commandsThroughAliases = new HashMap<>();
   public String[] prefixes;
   static long adminId = 762372102204030986L; 
+  public static long adminServerId = 762380604058632222L;
+  public Guild adminServer;
 
   public CommandHandler build() throws 
   InstantiationException, 
@@ -55,13 +60,14 @@ public class CommandHandler {
 
   public void execute(MessageReceivedEvent event) {
     String[] args = event.getMessage().getContentRaw().split(" ");
-    boolean valid = false;
 
-    for (String prefix : prefixes)
-      if (prefix.equals(args[0]))
-        valid = true;
+    // boolean valid = HelperFuncs.hasValue(prefixes, args[0]);
+    // boolean valid = false;
+    // for (String prefix : prefixes)
+    //   if (prefix.equals(args[0]))
+    //     valid = true;
 
-    if (!valid) return;
+    if (!HelperFuncs.hasValue(prefixes, args[0])) return;
 
     if (this.commandsThroughNames.containsKey(args[1]))
       executeCommand(this.commandsThroughNames.get(args[1]), new Context(event, args));
