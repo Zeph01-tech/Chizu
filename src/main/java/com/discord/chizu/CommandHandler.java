@@ -49,13 +49,13 @@ public class CommandHandler {
   }
 
   private static Class<?> getClass(String className, String packageName) {
+
     try {
-      return Class.forName(packageName + "."+ className);
+      return Class.forName(packageName + "." + className);
     } catch (ClassNotFoundException e) {
       System.out.println(e.getMessage());
+      return null;
     }
-
-    return null;
   }
 
   public void execute(MessageReceivedEvent event) {

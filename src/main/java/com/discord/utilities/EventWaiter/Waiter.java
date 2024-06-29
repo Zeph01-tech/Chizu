@@ -3,7 +3,7 @@ package com.discord.utilities.EventWaiter;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import javax.annotation.Nonnull;
+// import javax.annotation.Nonnull;
 
 import com.discord.chizu.Chizu;
 import com.discord.utilities.HelperFuncs;
@@ -36,10 +36,10 @@ class Waiting_Event<T extends Event> {
 
 public class Waiter extends ListenerAdapter {
   private List<Waiting_Event<? extends Event>> queue = new ArrayList<>();
-  ScheduledExecutorService threadpool = Executors.newScheduledThreadPool(5);
+  private ScheduledExecutorService threadpool = Executors.newScheduledThreadPool(5);
 
   public <T extends Event> void waitFor(Class<T> _cls, Predicate<T> check, Consumer<T> callback, Runnable timeoutCallback, int timeout) {
-    Waiting_Event<T> newEvent = new Waiting_Event<>(_cls, check, callback, timeout, timeoutCallback);
+    Waiting_Event<T> newEvent = new Waiting_Event<T>(_cls, check, callback, timeout, timeoutCallback);
     this.queue.add(newEvent);
 
     Runnable cancelTaskAfterTimeout = () -> {
@@ -83,21 +83,23 @@ public class Waiter extends ListenerAdapter {
   }
 
   @Override
-  public void onMessageReceived(@Nonnull MessageReceivedEvent firedEvent) {
+  public void onMessageReceived(MessageReceivedEvent firedEvent) {
+    if (firedEvent.getAuthor().isBot()) return;
     String msg = firedEvent.getMessage().getContentRaw();
+
     if (HelperFuncs.hasValue(Chizu.handler.prefixes, msg.split(" ")[0])) return;
 
     handleEvent(search(MessageReceivedEvent.class), firedEvent);
   }
 
   @Override
-  public void onMessageReactionAdd(@Nonnull MessageReactionAddEvent firedEvent) {
+  public void onMessageReactionAdd(MessageReactionAddEvent firedEvent) {
 
     handleEvent(search(MessageReactionAddEvent.class), firedEvent);
   }
 
   @Override
-  public void onMessageReactionRemove(@Nonnull MessageReactionRemoveEvent firedEvent) {
+  public void onMessageReactionRemove(MessageReactionRemoveEvent firedEvent) {
     
     handleEvent(search(MessageReactionRemoveEvent.class), firedEvent);
   }

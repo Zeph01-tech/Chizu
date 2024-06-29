@@ -22,7 +22,7 @@ public class HighFive extends Command {
 
   @Override
   public void execute(Context ctx) {
-    if (ctx.args.length != 2) return;
+    if (ctx.args.length != 0) return;
 
     EmbedBuilder embed = new EmbedBuilder();
     embed.setImage(HelperFuncs.random_choice(gif_urls));

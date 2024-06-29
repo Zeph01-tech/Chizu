@@ -15,9 +15,9 @@ public class RemovePrefix extends Command {
 
   @Override 
   public void execute(Context ctx) {
-    if (ctx.args.length != 3) return;
+    if (ctx.args.length != 1) return;
 
-    String arguedPrefix = ctx.args[2];
+    String arguedPrefix = ctx.args[0];
     if (!HelperFuncs.hasValue(Chizu.handler.prefixes, arguedPrefix)) {
       ctx.channel.sendMessage("Prefix `" + arguedPrefix + "` not found.");
       return;

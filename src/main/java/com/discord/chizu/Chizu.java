@@ -2,7 +2,7 @@ package com.discord.chizu;
 
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -14,11 +14,10 @@ import com.discord.utilities.EventWaiter.Waiter;
 import java.io.File;
 import java.util.Scanner;
 
-import javax.annotation.Nonnull;
+// import javax.annotation.Nonnull;
 
 public class Chizu extends ListenerAdapter {
 
-  // private static JDA client;
   public static CommandHandler handler;
   public static JDA bot;
   // JDA utilities EventWaiter
@@ -62,13 +61,13 @@ public class Chizu extends ListenerAdapter {
 	}
 
   @Override
-  public void onReady(@Nonnull ReadyEvent event){
+  public void onReady(ReadyEvent event){
     handler.adminServer = bot.getGuildById(CommandHandler.adminServerId);
     System.out.println("Ready");
   }
  
 	@Override
-	public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
+	public void onMessageReceived(MessageReceivedEvent event) {
 		if (event.getAuthor().isBot()) return;
     
     handler.execute(event);

@@ -16,8 +16,8 @@ public class Help extends Command {
 
   @Override
   public void execute(Context ctx) {
-    if (ctx.args.length != 2) return;
- 
+    if (ctx.args.length != 0) return;
+
     EmbedBuilder embed = new EmbedBuilder();
 		embed.setTitle("**Help Panel**")
     .setDescription("*List of all commands and their uses.*")
@@ -34,7 +34,7 @@ public class Help extends Command {
   private String sortAliases(List<String> aliases) {
     if (aliases.size() == 0) return "";
 
-    StringBuffer query = new StringBuffer(" - aka *`");
+    StringBuilder query = new StringBuilder(" - aka *`");
     aliases.forEach(alias -> {
       query.append(alias + "/");
     });

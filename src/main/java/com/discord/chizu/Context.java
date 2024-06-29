@@ -1,6 +1,7 @@
 package com.discord.chizu;
 
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
@@ -9,10 +10,12 @@ public class Context {
 	public Guild guild;
 	public User author;
 	public List<Member> members;
-	public Message message;
-	public MessageChannel channel;
-	public long guildId, authorId, channelId;
-  public String[] args;
+	public final Message message;
+	public final MessageChannel channel;
+	public long guildId;
+  public final long authorId, channelId;
+  public final String[] args;
+  public final MessageReceivedEvent event;
 
 	public Context(MessageReceivedEvent event, String[] args) {
 		if (event.isFromGuild()) {
@@ -25,6 +28,13 @@ public class Context {
 		this.channel = event.getChannel();
 		this.channelId = this.channel.getIdLong();
 		this.message = event.getMessage();
-    this.args = args;
+
+    String[] args_ = new String[args.length - 2];
+
+    for (int i = 2; i < args.length; i++)
+      args_[i - 2] = args[i];
+
+    this.args = args_;
+    this.event = event;
 	}
 }

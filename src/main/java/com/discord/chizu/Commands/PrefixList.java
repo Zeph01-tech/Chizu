@@ -16,7 +16,7 @@ public class PrefixList extends Command {
  
   @Override
   public void execute(Context ctx) {
-    if (ctx.args.length != 2) return;
+    if (ctx.args.length != 0) return;
 
     String dialouge = "";
 		int ctr = 1;

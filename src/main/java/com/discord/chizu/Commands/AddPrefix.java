@@ -3,6 +3,9 @@ package com.discord.chizu.Commands;
 import com.discord.chizu.Command;
 import com.discord.chizu.Context;
 
+import java.util.Arrays;
+import java.util.ArrayList;
+
 import com.discord.chizu.Chizu;
 
 public class AddPrefix extends Command {
@@ -15,16 +18,12 @@ public class AddPrefix extends Command {
 
   @Override 
   public void execute(Context ctx) {
-    if (ctx.args.length != 3) return;
+    if (ctx.args.length != 1) return;
 
-    String[] newPrefixList = new String[Chizu.handler.prefixes.length + 1];
-    int ctr = 1;
+    ArrayList<String> prefixL = new ArrayList<>(Arrays.asList(Chizu.handler.prefixes));
+    prefixL.add(ctx.args[0]);
 
-    for (String prefix : Chizu.handler.prefixes)
-    newPrefixList[ctr++] = prefix;
-
-    Chizu.handler.prefixes = newPrefixList;
-
+    Chizu.handler.prefixes = prefixL.toArray(new String[] {});
 
     ctx.message.reply("Prefixes updated ✅").queue();
   }

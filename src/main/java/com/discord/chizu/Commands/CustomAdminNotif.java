@@ -17,10 +17,16 @@ public class CustomAdminNotif extends Command {
     this.register();
     System.out.println("Notify registered");
   }
-// chizu notify <all/<member-id>> <msg>
+  // chizu notify <all/<member-id>> <msg>
   @Override
   public void execute(Context ctx) {
-    if (ctx.args.length == 3) return;
+
+    if (ctx.args.length == 1) {
+      ctx.message.reply("Provide a message to notify with.").queue();
+      return;
+    }
+
+    if (ctx.args.length == 0) return;
 
     String notification = "";
     for (int i = 3; i < ctx.args.length; i++) {

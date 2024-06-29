@@ -18,10 +18,10 @@ public class Kick extends Command {
  
   @Override
   public void execute(Context ctx) {
-    if (ctx.args.length != 3) return;
+    if (ctx.args.length != 1) return;
 
     Member target = ctx.guild.getMemberById (
-      ctx.args[2].replaceAll("<@", " ").replace("!", " ").replace(">", " ").strip()
+      ctx.args[0].replaceAll("<@", " ").replace("!", " ").replace(">", " ").strip()
     );
 
     if (target == null) {
@@ -41,10 +41,10 @@ public class Kick extends Command {
 
         ctx.channel.sendMessageEmbeds(embed.build()).queue();
       } else if (response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("y")) {
-          String tag = target.getUser().getAsTag();
+          String globalName = target.getUser().getGlobalName();
 					EmbedBuilder embed = new EmbedBuilder()
                                   .setTitle("Successfully kicked.")
-                                  .setDescription(tag + " has been kicked from the server.");
+                                  .setDescription(globalName + " has been kicked from the server.");
                                     
           target.kick().queue();
           ctx.channel.sendMessageEmbeds(embed.build()).queue();

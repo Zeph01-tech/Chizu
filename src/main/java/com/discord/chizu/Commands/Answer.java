@@ -14,7 +14,7 @@ public class Answer extends Command {
  
   @Override
   public void execute(Context ctx) {
-    if (ctx.args.length != 2) return;
+    if (ctx.args.length != 0) return;
 
     ctx.channel.sendMessage(HelperFuncs.random_choice(new String[] {"Yes?", "haii!!", "I'm alive!", "Nan-desuka?", "**wot**", "Yep", "Ur Dog"})).queue();
   }
