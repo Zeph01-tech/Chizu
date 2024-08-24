@@ -32,7 +32,7 @@ public class Help extends Command {
   }
 
   private String sortAliases(List<String> aliases) {
-    if (aliases.size() == 0) return "";
+    if (aliases == null) return "";
 
     StringBuilder query = new StringBuilder(" - aka *`");
     aliases.forEach(alias -> {

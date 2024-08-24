@@ -14,7 +14,7 @@ public class HighFive extends Command {
   };
 
   public HighFive() {
-    super("highfive", "Highfivessss the user :P", new String[] {}, false);
+    super("highfive", "Highfivessss the user :P", null, false);
 
     this.register();
     System.out.println("HighFive Registered");

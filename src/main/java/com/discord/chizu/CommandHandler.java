@@ -10,17 +10,16 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class CommandHandler {
-  public Map<String, Command> commandsThroughNames = new HashMap<>();
-  public Map<String, Command> commandsThroughAliases = new HashMap<>();
+  public final Map<String, Command> commandsThroughNames = new HashMap<>();
+  public final Map<String, Command> commandsThroughAliases = new HashMap<>();
   public String[] prefixes;
-  static long adminId = 762372102204030986L; 
-  public static long adminServerId = 762380604058632222L;
+  static final long adminId = 762372102204030986L; 
+  public final static long adminServerId = 762380604058632222L;
   public Guild adminServer;
 
   public CommandHandler build() throws 
   InstantiationException, 
   IllegalAccessException, 
-  IllegalArgumentException, 
   InvocationTargetException, 
   NoSuchMethodException, 
   SecurityException {

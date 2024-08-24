@@ -56,7 +56,7 @@ public class Chizu extends ListenerAdapter {
 
      } catch (Exception e) {
         System.out.println("Error occured");
-        System.out.println(e.getStackTrace());
+        e.printStackTrace();
      }
 	}
 

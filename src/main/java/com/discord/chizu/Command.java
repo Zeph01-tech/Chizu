@@ -1,6 +1,7 @@
 package com.discord.chizu;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class Command {
@@ -11,7 +12,7 @@ public abstract class Command {
   public Command(String name, String description, String[] aliases, boolean adminOnly) {
     this.name = name;
     this.description = description;
-    this.aliases = Arrays.asList(aliases);
+    this.aliases = aliases == null ? Collections.emptyList() : Arrays.asList(aliases);
     this.adminOnly = adminOnly;
   }
 

@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.entities.Member;
 public class CustomAdminNotif extends Command {
   
   public CustomAdminNotif() {
-    super("notify", "Secret ( ͡° ͜ʖ ͡°)", new String[] {}, true);
+    super("notify", "Secret ( ͡° ͜ʖ ͡°)", null, true);
     
     this.register();
     System.out.println("Notify registered");

@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class Kick extends Command {
   public Kick() {
-    super("kick", "Kick a dick straight outside.", new String[] {}, true);
+    super("kick", "Kick a dick straight outside.", null, true);
 
     this.register();
     System.out.println("Kick Registered");
@@ -31,16 +31,16 @@ public class Kick extends Command {
 
     ctx.channel.sendMessage("Are you sure you want to kick " + target.getAsMention() + " from the server?\nReply with either yes/y or no/n.").queue();
     Chizu.waiter.waitFor(MessageReceivedEvent.class, 
-    e -> e.getAuthor().equals(ctx.author) && e.getChannel().equals(ctx.channel), 
+    e -> e.getAuthor().equals(ctx.author) && e.getChannel().equals(ctx.channel) && "noyes".contains(e.getMessage().getContentRaw()), 
     e -> {
-      String response = e.getMessage().getContentRaw();
-      if (response.equalsIgnoreCase("no") || response.equalsIgnoreCase("n")) {
+      String response = e.getMessage().getContentRaw().toLowerCase();
+      if ("no".contains(response)) {
         EmbedBuilder embed = new EmbedBuilder()
                                 .setDescription("Command Cancelled.")
                                 .setColor(0xcf0418);
 
         ctx.channel.sendMessageEmbeds(embed.build()).queue();
-      } else if (response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("y")) {
+      } else if ("yes".contains(response)) {
           String globalName = target.getUser().getGlobalName();
 					EmbedBuilder embed = new EmbedBuilder()
                                   .setTitle("Successfully kicked.")

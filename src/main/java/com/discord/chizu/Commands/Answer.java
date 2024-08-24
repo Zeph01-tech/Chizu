@@ -6,7 +6,7 @@ import com.discord.utilities.HelperFuncs;
 
 public class Answer extends Command {
   public Answer() {
-    super("?", "Answers to the User", new String[] {}, false);
+    super("?", "Answers to the User", null, false);
 
     this.register();
     System.out.println("Answer Registered");
