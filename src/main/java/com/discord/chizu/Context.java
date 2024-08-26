@@ -12,21 +12,21 @@ public class Context {
 	public List<Member> members;
 	public final Message message;
 	public final MessageChannel channel;
-	public long guildId;
-  public final long authorId, channelId;
+	public String guildId;
+  public final String authorId, channelId;
   public final String[] args;
   public final MessageReceivedEvent event;
 
 	public Context(MessageReceivedEvent event, String[] args) {
 		if (event.isFromGuild()) {
       this.guild = event.getGuild();
-  		this.guildId = this.guild.getIdLong();
+  		this.guildId = this.guild.getId();
       this.members = this.guild.getMembers();
     }
 		this.author = event.getAuthor();
-		this.authorId = this.author.getIdLong();
+		this.authorId = this.author.getId();
 		this.channel = event.getChannel();
-		this.channelId = this.channel.getIdLong();
+		this.channelId = this.channel.getId();
 		this.message = event.getMessage();
 
     String[] args_ = new String[args.length - 2];

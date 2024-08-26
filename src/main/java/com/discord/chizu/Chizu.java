@@ -14,8 +14,6 @@ import com.discord.utilities.EventWaiter.Waiter;
 import java.io.File;
 import java.util.Scanner;
 
-// import javax.annotation.Nonnull;
-
 public class Chizu extends ListenerAdapter {
 
   public static CommandHandler handler;
@@ -53,6 +51,7 @@ public class Chizu extends ListenerAdapter {
      try {
         handler = new CommandHandler();
         handler.setPrefixes(new String[] {"Chizu", "chizu"}).build();
+        
 
      } catch (Exception e) {
         System.out.println("Error occured");
@@ -62,7 +61,7 @@ public class Chizu extends ListenerAdapter {
 
   @Override
   public void onReady(ReadyEvent event){
-    handler.adminServer = bot.getGuildById(CommandHandler.adminServerId);
+    CommandHandler.adminServer = bot.getGuildById(CommandHandler.adminServerId);
     System.out.println("Ready");
   }
  

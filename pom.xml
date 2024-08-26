@@ -22,6 +22,13 @@
   </properties>
   <dependencies>
     <dependency>
+      <groupId>com.mysqlorm</groupId>
+      <artifactId>MySQLORM</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>system</scope>
+      <systemPath>D:\OMEN\Projekts\SQL-Data-Model\MySQLORM\target\MySQLORM-1.0-SNAPSHOT.jar</systemPath>
+    </dependency>
+    <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
       <version>5.0.0-alpha.11</version>

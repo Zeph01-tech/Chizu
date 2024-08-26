@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -25,21 +26,12 @@ class Waiting_Event<T extends Event> {
   Runnable timeoutCb;
   String nature;
 
-  public Waiting_Event(Class<T> type, Predicate<T> check, Consumer<T> callback, int timeout, Runnable timeoutCb, String eventNature) {
+  Waiting_Event(Class<T> type, Predicate<T> check, Consumer<T> callback, Runnable timeoutCb, int timeout, String eventNature) {
     this.type = type;
     this.check = check;
     this.callback = callback;
-    this.timeout = timeout;
     this.timeoutCb = timeoutCb;
-    this.nature = eventNature;
-  }
-
-  public Waiting_Event(Class<T> type,Predicate<T> check, Consumer<T> callback, int timeout, String eventNature) {
-    this.type = type;
-    this.check = check;
-    this.callback = callback;
     this.timeout = timeout;
-    this.timeoutCb = null;
     this.nature = eventNature;
   }
 }
@@ -47,39 +39,52 @@ class Waiting_Event<T extends Event> {
 public class Waiter extends ListenerAdapter {
   private final List<Waiting_Event<? extends Event>> waiterQueue = new ArrayList<>();
   private final List<Waiting_Event<? extends Event>> observerQueue = new ArrayList<>();
-  private final ScheduledExecutorService threadpool = Executors.newScheduledThreadPool(5);
+  private final ScheduledExecutorService waitingThreadpool = Executors.newScheduledThreadPool(5);
+  // private final ExecutorService threadpool = Executors.newCachedThreadPool();
 
   public <T extends Event> void waitFor(
-  Class<T> _cls, 
-  Predicate<T> check, 
-  Consumer<T> callback, 
-  Runnable timeoutCallback, 
+  Class<T> cls,
+  Predicate<T> check,
+  Consumer<T> callback,
+  Runnable timeoutCallback,
   int timeout
   ) {
-    Waiting_Event<T> newEvent = new Waiting_Event<T>(_cls, check, callback, timeout, timeoutCallback, "wait");
+    Waiting_Event<T> newEvent = new Waiting_Event<T>(cls, check, callback, timeoutCallback, timeout, "wait");
     this.waiterQueue.add(newEvent);
 
     Runnable cancelRunnable = () -> {
       synchronized (this.waiterQueue) {
         if (this.waiterQueue.remove(newEvent))
-        newEvent.timeoutCb.run();
+          newEvent.timeoutCb.run();
       }
     };
 
-    this.threadpool.schedule(cancelRunnable, timeout, TimeUnit.SECONDS);
+    this.waitingThreadpool.schedule(cancelRunnable, timeout, TimeUnit.SECONDS);
   }
 
-  public <T extends Event> void watchFor(Class<T> _cls, Predicate<T> check, Consumer<T> callback, int timeout) {
-    Waiting_Event<T> newEvent = new Waiting_Event<>(_cls, check, callback, timeout, "watch");
+  public <T extends Event> ScheduledFuture<?> watchFor(Class<T> cls, Predicate<T> check, Consumer<T> callback, int timeout) {
+      return watchFor(cls, check, callback, null, timeout);
+    }
+
+  public <T extends Event> ScheduledFuture<?> watchFor(
+    Class<T> cls,
+    Predicate<T> check,
+    Consumer<T> callback,
+    Runnable timeoutCb,
+    int timeout
+    ) {
+    Waiting_Event<T> newEvent = new Waiting_Event<>(cls, check, callback, timeoutCb, timeout, "watch");
     this.observerQueue.add(newEvent);
 
     Runnable cancelRunnable = () -> {
       synchronized (this.observerQueue) {
         this.observerQueue.remove(newEvent);
+        if (newEvent.timeoutCb != null)
+          newEvent.timeoutCb.run();
       }
     };
 
-    this.threadpool.schedule(cancelRunnable, timeout, TimeUnit.SECONDS);
+    return this.waitingThreadpool.schedule(cancelRunnable, timeout, TimeUnit.SECONDS);
   }
 
   @SuppressWarnings("unchecked")
@@ -106,7 +111,9 @@ public class Waiter extends ListenerAdapter {
     for (Waiting_Event<T> event : waitingEvents)
       if (event.check.test(firedEvent)) {
         if (event.nature.equals("wait"))
-          this.waiterQueue.remove(event);
+          synchronized (this.waiterQueue) {
+            this.waiterQueue.remove(event);
+          }
 
         filteredEvents.add(event);
       }
@@ -130,6 +137,8 @@ public class Waiter extends ListenerAdapter {
 
     if (HelperFuncs.hasValue(Chizu.handler.prefixes, msg.split(" ")[0])) return;
 
+    System.out.println("waiter aya");
+
     handleEvent(search(MessageReceivedEvent.class), firedEvent);
   }
 
@@ -137,7 +146,6 @@ public class Waiter extends ListenerAdapter {
   public void onMessageReactionAdd(MessageReactionAddEvent firedEvent) {
     if (firedEvent.getUser().isBot()) return;
 
-    System.out.println(this.observerQueue + "\n");
     handleEvent(search(MessageReactionAddEvent.class), firedEvent);
   }
 
@@ -145,7 +153,6 @@ public class Waiter extends ListenerAdapter {
   public void onMessageReactionRemove(MessageReactionRemoveEvent firedEvent) {
     if (firedEvent.getUser().isBot()) return;
 
-    System.out.println(this.observerQueue + "\n");
     handleEvent(search(MessageReactionRemoveEvent.class), firedEvent);
   }
 }

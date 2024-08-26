@@ -13,9 +13,9 @@ public class CommandHandler {
   public final Map<String, Command> commandsThroughNames = new HashMap<>();
   public final Map<String, Command> commandsThroughAliases = new HashMap<>();
   public String[] prefixes;
-  static final long adminId = 762372102204030986L; 
-  public final static long adminServerId = 762380604058632222L;
-  public Guild adminServer;
+  public static final String adminId = "762372102204030986"; 
+  public static final String adminServerId = "762380604058632222";
+  public static Guild adminServer;
 
   public CommandHandler build() throws 
   InstantiationException, 
@@ -80,7 +80,7 @@ public class CommandHandler {
     if (!cmd.adminOnly)
       cmd.execute(ctx);
 
-    else if (ctx.authorId == adminId)
+    else if (ctx.authorId.equals(adminId))
       cmd.execute(ctx);
     
     else
